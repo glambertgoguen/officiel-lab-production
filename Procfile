@@ -1,1 +1,1 @@
-web: java -Dport=6060 -DSTORE_PARAMETER=memory -jar target/cart-0.0.1-SNAPSHOT.jar
+web: java -Dport=6060 -Dstore=hibernate -jar target/cart-0.0.1-SNAPSHOT.jar
