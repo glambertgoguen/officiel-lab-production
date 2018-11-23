@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cart;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 import javax.servlet.DispatcherType;
 
@@ -20,7 +21,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 public class CartServer implements Runnable {
-    private static final int PORT = 7222;
+	private static final String PORT_PROPERTY = "port";
+    private static final int DEFAULT_PORT = 7222;
 
     public static void main(String[] args) {
         new CartServer().run();
@@ -36,7 +38,9 @@ public class CartServer implements Runnable {
     }
 
     private void startServer() {
-        Server server = new Server(PORT);
+    	int httpPort = Optional.ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt)
+                .orElse(DEFAULT_PORT);
+        Server server = new Server(httpPort);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         contextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
